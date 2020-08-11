@@ -62,11 +62,19 @@ public class FileUploadView {
                 String fileOutputPath = outFileChooser.getSelectedFile().getAbsolutePath();
                 outputTxt.setText(fileOutputPath);
                 System.out.println(fileOutputPath);
+                fileUploader.setFileOutputPath(fileOutputPath);
             }
         });
-
         JCheckBox jCheckBox = new JCheckBox("inSync");
-        Button button = new Button("uplaod");
+        Button button = new Button("upload");
+        jCheckBox.addActionListener(e -> {
+            System.out.println("选择inSync同步");
+            fileUploader.setInSync(1);
+        });
+        button.addActionListener(e -> {
+            System.out.println("开始上传......");
+        });
+
         GridBagConstraints gbc = setGrid(GridBagConstraints.BOTH, 0, 0, 1, 1, 0.25, 0, new Insets(8, 16, 8, 16));
         contentPanel.add(inputButton, gbc);
         GridBagConstraints gbc1 = setGrid(GridBagConstraints.BOTH, 1, 0, 1, 1, 0.75, 0, new Insets(8, 8, 8, 8));

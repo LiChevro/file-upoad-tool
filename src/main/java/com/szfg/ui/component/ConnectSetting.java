@@ -4,6 +4,7 @@ import com.szfg.bean.AccessTokenResult;
 import com.szfg.logic.AccessToken;
 import com.szfg.logic.FileUploader;
 import com.szfg.util.HttpRequestUtil;
+import com.szfg.util.SettingUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,14 +15,6 @@ import java.awt.*;
  * Date: Create in  10:12 2020-08-06
  **/
 public class ConnectSetting {
-
-    private String token;
-
-    public ConnectSetting() {
-        AccessToken accessToken = new AccessToken();
-        AccessTokenResult accessTokenResult = accessToken.get();
-        this.token = accessTokenResult.getResultData().getAccessToken();
-    }
 
     public JPanel init() {
         JPanel contentPanel = new JPanel();
@@ -44,7 +37,7 @@ public class ConnectSetting {
         commonPanel.setBorder(BorderFactory.createTitledBorder("Common"));
         JLabel address = new JLabel("Address");
         JTextField addressText = new JTextField(25);
-        addressText.setText(HttpRequestUtil.address);
+        addressText.setText(SettingUtil.getValues("address"));
         addressText.setBackground(new Color(211, 211, 211));
         Button button = new Button("Save");
         commonPanel.add(address);
@@ -59,21 +52,20 @@ public class ConnectSetting {
         JPanel tokenConnPanel = new JPanel();
         tokenConnPanel.setLayout(gridLayout);
         tokenConnPanel.setBorder(BorderFactory.createTitledBorder("Access Token"));
-        AccessToken accessToken = new AccessToken();
 
         JLabel tokenUri = new JLabel("Uri");
         JTextField tokenUriText = new JTextField(25);
-        tokenUriText.setText(accessToken.getTokenAccessUrl());
+        tokenUriText.setText(SettingUtil.getValues("tokenAccessUrl"));
         tokenUriText.setBackground(new Color(211, 211, 211));
 
         JLabel appId = new JLabel("AppId");
         JTextField appIdText = new JTextField(25);
-        appIdText.setText(accessToken.getAppid());
+        appIdText.setText(SettingUtil.getValues("appId"));
         appIdText.setBackground(new Color(211, 211, 211));
 
         JLabel appSecret = new JLabel("AppSecret");
         JTextField appSecretText = new JTextField(25);
-        appSecretText.setText(accessToken.getAppsecret());
+        appSecretText.setText(SettingUtil.getValues("appSecret"));
         appSecretText.setBackground(new Color(211, 211, 211));
 
         Button saveButton = new Button("Save");
@@ -97,18 +89,18 @@ public class ConnectSetting {
 
         JLabel fileUploadUri = new JLabel("Uri");
         JTextField fileUploadText = new JTextField(25);
-        fileUploadText.setText(fileUploader.getFileUploadUrl());
+        fileUploadText.setText(SettingUtil.getValues("fileUploadUrl"));
         fileUploadText.setBackground(new Color(211, 211, 211));
 
         JLabel jLabel = new JLabel("AccessToken");
         JTextField jTextField = new JTextField(25);
-        jTextField.setText(this.token);
+        jTextField.setText(SettingUtil.getValues("accessToken"));
         jTextField.setBackground(new Color(211, 211, 211));
         jTextField.setEditable(false);
 
         JLabel jLabel1 = new JLabel("AuthorSecret");
         JTextField jTextField1 = new JTextField();
-        jTextField1.setText(fileUploader.getAuthorSecret());
+        jTextField1.setText(SettingUtil.getValues("authorSecret"));
         jTextField1.setBackground(new Color(211, 211, 211));
 
         Button button = new Button("Save");

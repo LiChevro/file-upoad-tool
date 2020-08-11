@@ -7,6 +7,7 @@ import sun.net.www.protocol.http.HttpURLConnection;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ import java.util.Map;
  **/
 public class HttpRequestUtil {
 
-    public static final String address = "http://192.168.159.48:9016";
+    public static final String address = SettingUtil.getValues("address");
 
     /**
      * 向指定URL发送GET方法的请求
@@ -154,7 +155,7 @@ public class HttpRequestUtil {
             connection.setRequestProperty("Accept", "application/json"); // 设置接收数据的格式
             connection.setRequestProperty("Content-Type", "application/json"); // 设置发送数据的格式
             connection.connect();
-            OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream(), "UTF-8"); // utf-8编码
+            OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream(), StandardCharsets.UTF_8); // utf-8编码
             out.append(JSONUtil.obj2String(params));
             out.flush();
             out.close();
@@ -177,7 +178,7 @@ public class HttpRequestUtil {
                     System.arraycopy(temp, 0, data, destPos, readLen);
                     destPos += readLen;
                 }
-                String result = new String(data, "UTF-8"); // utf-8编码
+                String result = new String(data, StandardCharsets.UTF_8); // utf-8编码
                 System.out.println(result);
                 return result;
             }
@@ -197,7 +198,7 @@ public class HttpRequestUtil {
      * @param fileMap
      * @return
      */
-    public static String formUpload(String urlStr,Map<String, String> headers, Map<String, String> textMap, Map<String, Object> fileMap) {
+    public static String formUpload(String urlStr, Map<String, String> headers, Map<String, String> textMap, Map<String, Object> fileMap) {
         String res = "";
         HttpURLConnection conn = null;
         String BOUNDARY = "---------------------------123821742118716"; //boundary就是request头和上传文件内容的分隔符
