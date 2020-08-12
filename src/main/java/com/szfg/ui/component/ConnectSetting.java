@@ -1,13 +1,12 @@
 package com.szfg.ui.component;
 
-import com.szfg.bean.AccessTokenResult;
-import com.szfg.logic.AccessToken;
 import com.szfg.logic.FileUploader;
-import com.szfg.util.HttpRequestUtil;
 import com.szfg.util.SettingUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Author: Chevro.Lee <br>
@@ -40,6 +39,12 @@ public class ConnectSetting {
         addressText.setText(SettingUtil.getValues("address"));
         addressText.setBackground(new Color(211, 211, 211));
         Button button = new Button("Save");
+        button.addActionListener(e -> {
+            System.out.println("Address信息保存");
+            Map<String, String> map = new HashMap<>();
+            map.put("address", addressText.getText());
+            SettingUtil.setValues(map);
+        });
         commonPanel.add(address);
         commonPanel.add(addressText);
         commonPanel.add(button);
@@ -69,6 +74,14 @@ public class ConnectSetting {
         appSecretText.setBackground(new Color(211, 211, 211));
 
         Button saveButton = new Button("Save");
+        saveButton.addActionListener(e -> {
+            System.out.println("Token Access 连接信息设置保存");
+            Map<String,String> map = new HashMap<>();
+            map.put("tokenAccessUrl", tokenUriText.getText());
+            map.put("appId", appIdText.getText());
+            map.put("appSecret", appSecretText.getText());
+            SettingUtil.setValues(map);
+        });
         tokenConnPanel.add(tokenUri);
         tokenConnPanel.add(tokenUri);
         tokenConnPanel.add(tokenUriText);
@@ -85,7 +98,6 @@ public class ConnectSetting {
         JPanel fileUploadPanel = new JPanel();
         fileUploadPanel.setLayout(gridLayout);
         fileUploadPanel.setBorder(BorderFactory.createTitledBorder("File Upload"));
-        FileUploader fileUploader = new FileUploader();
 
         JLabel fileUploadUri = new JLabel("Uri");
         JTextField fileUploadText = new JTextField(25);
@@ -104,7 +116,12 @@ public class ConnectSetting {
         jTextField1.setBackground(new Color(211, 211, 211));
 
         Button button = new Button("Save");
-        button.setBounds(50, 10, 20, 10);
+        button.addActionListener(e -> {
+            Map<String, String> map = new HashMap<>();
+            map.put("authorSecret", jTextField1.getText());
+            map.put("fileUploadUrl", fileUploadText.getText());
+            SettingUtil.setValues(map);
+        });
         fileUploadPanel.add(fileUploadUri);
         fileUploadPanel.add(fileUploadText);
         fileUploadPanel.add(jLabel);

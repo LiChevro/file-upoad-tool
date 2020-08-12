@@ -1,6 +1,5 @@
 package com.szfg.util;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,9 +15,10 @@ public class SettingUtil {
 
     /**
      * 获取Properties对象
+     *
      * @return
      */
-    public static Properties getProperties() {
+    private static Properties getProperties() {
         Properties properties = new Properties();
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         try {
@@ -32,6 +32,7 @@ public class SettingUtil {
 
     /**
      * 获取值
+     *
      * @param key
      * @return
      */
@@ -42,6 +43,7 @@ public class SettingUtil {
 
     /**
      * 新增/修改数据
+     *
      * @param map
      */
     public static void setValues(Map<String, String> map) {
@@ -49,7 +51,7 @@ public class SettingUtil {
             return;
         }
         Properties properties = getProperties();
-        for (Map.Entry<String,String> m : map.entrySet()) {
+        for (Map.Entry<String, String> m : map.entrySet()) {
             String key = m.getKey();
             String value = m.getValue();
             properties.setProperty(key, value);
@@ -64,7 +66,7 @@ public class SettingUtil {
             e.printStackTrace();
         } finally {
             try {
-                if (null != fos){
+                if (null != fos) {
                     fos.close();
                 }
             } catch (IOException e) {

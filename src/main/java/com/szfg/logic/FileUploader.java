@@ -40,7 +40,7 @@ public class FileUploader {
         this.inSync = 1;
     }
 
-    public FileUploadResult doUp() throws IOException {
+    public FileUploadResult doUp() {
         // 获取token
         AccessToken accessToken = new AccessToken();
         AccessTokenResult accessTokenResult = accessToken.get();
@@ -54,7 +54,7 @@ public class FileUploader {
         findAll(new File(this.fileUploadPath));
         List<Object[]> dataList = new ArrayList<Object[]>();
         for (File file : fileList) {
-            String fileName = file.getName().substring(0, (file.getName().indexOf("号")+1));
+            String fileName = file.getName().substring(0, (file.getName().indexOf("号") + 1));
             Map<String, Object> fileParams = new HashMap<>();
             Map<String, String> textParams = new HashMap<>();
             fileParams.put("file", file);
@@ -64,7 +64,12 @@ public class FileUploader {
             String resultStr = HttpRequestUtil.formUpload(HttpRequestUtil.address + fileUploadUrl, headers, textParams, fileParams);
             System.out.println(resultStr);
             ObjectMapper objectMapper = new ObjectMapper();
-            FileUploadResult fileUploadResult = objectMapper.readValue(resultStr, FileUploadResult.class);
+            FileUploadResult fileUploadResult = null;
+            try {
+                fileUploadResult = objectMapper.readValue(resultStr, FileUploadResult.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             // 生成Excel需要的列数据
             FileUploadResult.ResultData data = fileUploadResult.getResultData();
             String md5 = data.getMd5sum();
@@ -74,17 +79,13 @@ public class FileUploader {
             dataList.add(obj);
         }
         // 生成Excel
-        String[] rowName = new String[]{"No.","fileName", "MD5"};
+        String[] rowName = new String[]{"No.", "fileName", "MD5"};
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String title = "文件名MD5映射";
         String excelName = "excel_" + sdf.format(date) + ".xls";
         ExportExcel exportExcel = new ExportExcel(title, rowName, dataList);
-        File exportFile = new File(this.fileOutputPath+excelName);
-        if (!exportFile.getParentFile().exists()) {
-            exportFile.getParentFile().mkdirs();
-            exportFile.createNewFile();
-        }
+        File exportFile = new File(this.fileOutputPath + "\\" +excelName);
         try (FileOutputStream fileOutputStream = new FileOutputStream(exportFile)) {
             exportExcel.doEx(fileOutputStream);
         } catch (Exception e) {
@@ -103,7 +104,7 @@ public class FileUploader {
             fileList.add(file);
         } else {
             File[] files = file.listFiles();
-            if (files== null || files.length == 0) {
+            if (files == null || files.length == 0) {
                 System.out.println("no file");
             } else {
                 for (File f : files) {
@@ -115,11 +116,7 @@ public class FileUploader {
 
     public static void main(String[] args) {
         FileUploader fileUploader = new FileUploader();
-        try {
-            fileUploader.doUp();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        fileUploader.doUp();
     }
 
     public String getAuthorSecret() {

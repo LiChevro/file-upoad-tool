@@ -1,9 +1,13 @@
 package com.szfg.ui.component;
 
+import com.szfg.logic.AccessToken;
 import com.szfg.logic.FileUploader;
+import com.szfg.util.SettingUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Author: Chevro.Lee <br>
@@ -73,6 +77,17 @@ public class FileUploadView {
         });
         button.addActionListener(e -> {
             System.out.println("开始上传......");
+            fileUploader.setAuthorSecret(SettingUtil.getValues("authorSecret"));
+            fileUploader.setFileUploadUrl(SettingUtil.getValues("fileUploadUrl"));
+            // 获取token
+            String accessToken = new AccessToken().get().getResultData().getAccessToken();
+            // 写入properties
+            Map<String, String> map = new HashMap<>();
+            map.put("accessToken",accessToken);
+            SettingUtil.setValues(map);
+            fileUploader.setToken(accessToken);
+            // 上传
+            fileUploader.doUp();
         });
 
         GridBagConstraints gbc = setGrid(GridBagConstraints.BOTH, 0, 0, 1, 1, 0.25, 0, new Insets(8, 16, 8, 16));
