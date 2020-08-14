@@ -24,10 +24,10 @@ public class MenuCustom {
         // 二级菜单
         JMenuItem fileUploadItem = new JMenuItem("文件上传");
         JMenuItem connectItem = new JMenuItem("连接信息");
-        JMenuItem themeItem = new JMenuItem("主题");
+//        JMenuItem themeItem = new JMenuItem("主题");
         fileUploadMenu.add(fileUploadItem);
         settingMenu.add(connectItem);
-        settingMenu.add(themeItem);
+//        settingMenu.add(themeItem);
         // 设置事件监听
         fileUploadItem.addActionListener(e -> {
             ConsoleTextArea.startWriter("文件上传");
@@ -43,7 +43,7 @@ public class MenuCustom {
             frame.setContentPane(panel);
             frame.setVisible(true);
         });
-        themeItem.addActionListener(e -> ConsoleTextArea.startWriter("主题"));
+//        themeItem.addActionListener(e -> ConsoleTextArea.startWriter("主题"));
         return jMenuBar;
     }
 }

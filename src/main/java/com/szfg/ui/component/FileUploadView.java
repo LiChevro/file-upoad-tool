@@ -16,13 +16,14 @@ import java.util.Map;
  **/
 public class FileUploadView {
 
+    private static int inSyncCount = 0;
+
     public JPanel init() {
         // 纵向盒类型布局
         JPanel jPanel = new JPanel();
         BoxLayout boxLayout = new BoxLayout(jPanel, BoxLayout.Y_AXIS);
         jPanel.setLayout(boxLayout);
-        //添加长度为40的垂直框架
-        jPanel.add(Box.createVerticalStrut(10));
+        //添加长度为10的垂直框架
         jPanel.add(fileComponent());
         jPanel.add(Box.createVerticalStrut(10));
         jPanel.add(new JScrollPane(outArea()));
@@ -30,7 +31,7 @@ public class FileUploadView {
         return jPanel;
     }
 
-    public JPanel fileComponent() {
+    private JPanel fileComponent() {
         JFrame parentFrame = new JFrame();
         parentFrame.setBounds(100, 100, 500, 393);
         parentFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,7 +73,12 @@ public class FileUploadView {
         JCheckBox jCheckBox = new JCheckBox("inSync");
         Button button = new Button("upload");
         jCheckBox.addActionListener(e -> {
-            ConsoleTextArea.startWriter("选择inSync同步");
+            inSyncCount++;
+            if (inSyncCount % 2 == 0) {
+                ConsoleTextArea.startWriter("取消inSync同步");
+            } else {
+                ConsoleTextArea.startWriter("选择inSync同步");
+            }
             fileUploader.setInSync(1);
         });
         button.addActionListener(e -> {
@@ -81,10 +87,10 @@ public class FileUploadView {
             fileUploader.setFileUploadUrl(SettingUtil.getValues("fileUploadUrl"));
             // 获取token
             String accessToken = new AccessToken().get().getResultData().getAccessToken();
-            ConsoleTextArea.startWriter("AccessToken == "+accessToken);
+            ConsoleTextArea.startWriter("AccessToken == " + accessToken);
             // 写入properties
             Map<String, String> map = new HashMap<>();
-            map.put("accessToken",accessToken);
+            map.put("accessToken", accessToken);
             SettingUtil.setValues(map);
             // 上传
             fileUploader.doUp();
@@ -105,12 +111,12 @@ public class FileUploadView {
         return contentPanel;
     }
 
-    public JPanel outArea() {
+    private JPanel outArea() {
         JPanel outAreaPanel = new JPanel();
         GridBagLayout bagLayout = new GridBagLayout();
         outAreaPanel.setLayout(bagLayout);
         JLabel label = new JLabel("Result:");
-        ConsoleTextArea consoleTextArea = new ConsoleTextArea(15,31);
+        ConsoleTextArea consoleTextArea = new ConsoleTextArea(15, 31);
         GridBagConstraints gbc = setGrid(GridBagConstraints.WEST, 0, 0, 1, 1, 0.25, 0, new Insets(8, 0, 0, 8));
         GridBagConstraints gbc1 = setGrid(GridBagConstraints.BOTH, 1, 0, 3, 2, 0.75, 0, new Insets(8, 0, 0, 8));
         outAreaPanel.add(label, gbc);
