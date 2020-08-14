@@ -118,11 +118,6 @@ public class FileUploader {
         }
     }
 
-    public static void main(String[] args) {
-        FileUploader fileUploader = new FileUploader();
-        fileUploader.doUp();
-    }
-
     public String getAuthorSecret() {
         return authorSecret;
     }
