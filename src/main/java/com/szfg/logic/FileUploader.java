@@ -3,7 +3,9 @@ package com.szfg.logic;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.szfg.bean.AccessTokenResult;
 import com.szfg.bean.FileUploadResult;
+import com.szfg.ui.component.ConsoleTextArea;
 import com.szfg.util.HttpRequestUtil;
+import com.szfg.util.SettingUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,27 +30,29 @@ public class FileUploader {
     // 是否同步到外网：1.需要，0.不需要
     private Integer inSync;
 
-    private String token;
-
     private List<File> fileList = new ArrayList<>();
 
-    public FileUploader() {
-        this.authorSecret = "e573f29f472741af997bc6486e18baa9";
-        this.fileUploadPath = "E:\\Download";
-        this.fileUploadUrl = "/E/BasicDB/FileUpload";
-        this.fileOutputPath = "E:\\works\\my-excel\\";
-        this.inSync = 1;
+    private boolean checkParam() {
+        if (this.fileOutputPath == null) {
+            ConsoleTextArea.startWriter("输出路径为空！");
+            return false;
+        } else if (this.fileUploadPath == null) {
+            ConsoleTextArea.startWriter("输入路径为空！");
+            return false;
+        } else if (this.inSync == null) {
+            ConsoleTextArea.startWriter("未选择是否同步到外网！");
+            return false;
+        }
+        return true;
     }
 
     public FileUploadResult doUp() {
-        // 获取token
-        AccessToken accessToken = new AccessToken();
-        AccessTokenResult accessTokenResult = accessToken.get();
-        AccessTokenResult.ResultData resultData = accessTokenResult.getResultData();
-        this.token = resultData.getAccessToken();
+        if (!this.checkParam()) {
+            return null;
+        }
         // 设置个性化请求头
         Map<String, String> headers = new HashMap<String, String>();
-        headers.put("accessToken", token);
+        headers.put("accessToken", SettingUtil.getValues("accessToken"));
         headers.put("authorSecret", this.authorSecret);
         // 获取待上传文件列表
         findAll(new File(this.fileUploadPath));
@@ -62,7 +66,7 @@ public class FileUploader {
             textParams.put("inSync", this.inSync.toString());
             // 请求上传文件，一个一个上传
             String resultStr = HttpRequestUtil.formUpload(HttpRequestUtil.address + fileUploadUrl, headers, textParams, fileParams);
-            System.out.println(resultStr);
+            ConsoleTextArea.startWriter(resultStr);
             ObjectMapper objectMapper = new ObjectMapper();
             FileUploadResult fileUploadResult = null;
             try {
@@ -91,6 +95,7 @@ public class FileUploader {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        ConsoleTextArea.startWriter("处理完成！");
         return null;
     }
 
@@ -99,13 +104,12 @@ public class FileUploader {
             return;
         }
         if (file.isFile()) {
-            System.out.println(file.getPath() + " " + file.getName());
             // todo 校验文件大小
             fileList.add(file);
         } else {
             File[] files = file.listFiles();
             if (files == null || files.length == 0) {
-                System.out.println("no file");
+                ConsoleTextArea.startWriter("no file");
             } else {
                 for (File f : files) {
                     findAll(f);
@@ -133,14 +137,6 @@ public class FileUploader {
 
     public void setFileUploadUrl(String fileUploadUrl) {
         this.fileUploadUrl = fileUploadUrl;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 
     public Integer getInSync() {

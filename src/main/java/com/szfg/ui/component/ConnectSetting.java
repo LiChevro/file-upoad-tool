@@ -40,7 +40,7 @@ public class ConnectSetting {
         addressText.setBackground(new Color(211, 211, 211));
         Button button = new Button("Save");
         button.addActionListener(e -> {
-            System.out.println("Address信息保存");
+            ConsoleTextArea.startWriter("Address信息保存");
             Map<String, String> map = new HashMap<>();
             map.put("address", addressText.getText());
             SettingUtil.setValues(map);
@@ -75,7 +75,7 @@ public class ConnectSetting {
 
         Button saveButton = new Button("Save");
         saveButton.addActionListener(e -> {
-            System.out.println("Token Access 连接信息设置保存");
+            ConsoleTextArea.startWriter("Token Access 连接信息设置保存");
             Map<String,String> map = new HashMap<>();
             map.put("tokenAccessUrl", tokenUriText.getText());
             map.put("appId", appIdText.getText());
@@ -130,19 +130,6 @@ public class ConnectSetting {
         fileUploadPanel.add(jTextField1);
         fileUploadPanel.add(button);
         return fileUploadPanel;
-    }
-
-    public static void main(String[] args) {
-        // 生成窗口
-        JFrame windows1 = new JFrame("窗口1");
-        ConnectSetting connectSetting = new ConnectSetting();
-        windows1.setContentPane(connectSetting.init());
-        // 获得这个窗口的内容面板
-        windows1.setBounds(60, 100, 788, 480);
-        // 设置位置大小
-        windows1.setVisible(true);
-        // 设置按x后的操作.[这个只是关闭那个窗口]
-        windows1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
 }

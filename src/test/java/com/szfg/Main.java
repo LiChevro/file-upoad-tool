@@ -1,5 +1,7 @@
 package com.szfg;
 
+import com.szfg.ui.component.ConsoleTextArea;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -84,21 +86,21 @@ public class Main {
         newMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("新建  被点击");
+                ConsoleTextArea.startWriter("新建  被点击");
             }
         });
         // 设置 "打开" 子菜单被点击的监听器
         openMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("打开  被点击");
+                ConsoleTextArea.startWriter("打开  被点击");
             }
         });
         // 设置 "退出" 子菜单被点击的监听器
         exitMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("退出  被点击");
+                ConsoleTextArea.startWriter("退出  被点击");
             }
         });
 
@@ -106,7 +108,7 @@ public class Main {
         checkBoxMenuItem.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                System.out.println("复选框是否被选中: " + checkBoxMenuItem.isSelected());
+                ConsoleTextArea.startWriter("复选框是否被选中: " + checkBoxMenuItem.isSelected());
             }
         });
 
@@ -114,7 +116,7 @@ public class Main {
         radioButtonMenuItem01.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                System.out.println("单选按钮01 是否被选中: " + radioButtonMenuItem01.isSelected());
+                ConsoleTextArea.startWriter("单选按钮01 是否被选中: " + radioButtonMenuItem01.isSelected());
             }
         });
 

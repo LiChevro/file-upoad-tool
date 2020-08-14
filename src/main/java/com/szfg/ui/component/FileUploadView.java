@@ -25,7 +25,7 @@ public class FileUploadView {
         jPanel.add(Box.createVerticalStrut(10));
         jPanel.add(fileComponent());
         jPanel.add(Box.createVerticalStrut(10));
-        jPanel.add(outArea());
+        jPanel.add(new JScrollPane(outArea()));
         jPanel.add(Box.createVerticalStrut(10));
         return jPanel;
     }
@@ -51,7 +51,7 @@ public class FileUploadView {
             if (i == JFileChooser.APPROVE_OPTION) {
                 String fileUploadPath = inputFileChooser.getSelectedFile().getAbsolutePath();
                 inputTxt.setText(fileUploadPath);
-                System.out.println(fileUploadPath);
+                ConsoleTextArea.startWriter(fileUploadPath);
                 fileUploader.setFileUploadPath(fileUploadPath);
             }
         });
@@ -65,27 +65,27 @@ public class FileUploadView {
             if (i == JFileChooser.APPROVE_OPTION) {
                 String fileOutputPath = outFileChooser.getSelectedFile().getAbsolutePath();
                 outputTxt.setText(fileOutputPath);
-                System.out.println(fileOutputPath);
+                ConsoleTextArea.startWriter(fileOutputPath);
                 fileUploader.setFileOutputPath(fileOutputPath);
             }
         });
         JCheckBox jCheckBox = new JCheckBox("inSync");
         Button button = new Button("upload");
         jCheckBox.addActionListener(e -> {
-            System.out.println("选择inSync同步");
+            ConsoleTextArea.startWriter("选择inSync同步");
             fileUploader.setInSync(1);
         });
         button.addActionListener(e -> {
-            System.out.println("开始上传......");
+            ConsoleTextArea.startWriter("开始上传......");
             fileUploader.setAuthorSecret(SettingUtil.getValues("authorSecret"));
             fileUploader.setFileUploadUrl(SettingUtil.getValues("fileUploadUrl"));
             // 获取token
             String accessToken = new AccessToken().get().getResultData().getAccessToken();
+            ConsoleTextArea.startWriter("AccessToken == "+accessToken);
             // 写入properties
             Map<String, String> map = new HashMap<>();
             map.put("accessToken",accessToken);
             SettingUtil.setValues(map);
-            fileUploader.setToken(accessToken);
             // 上传
             fileUploader.doUp();
         });
@@ -110,11 +110,11 @@ public class FileUploadView {
         GridBagLayout bagLayout = new GridBagLayout();
         outAreaPanel.setLayout(bagLayout);
         JLabel label = new JLabel("Result:");
-        JTextArea area = new JTextArea(15, 31);
+        ConsoleTextArea consoleTextArea = new ConsoleTextArea(15,31);
         GridBagConstraints gbc = setGrid(GridBagConstraints.WEST, 0, 0, 1, 1, 0.25, 0, new Insets(8, 0, 0, 8));
         GridBagConstraints gbc1 = setGrid(GridBagConstraints.BOTH, 1, 0, 3, 2, 0.75, 0, new Insets(8, 0, 0, 8));
         outAreaPanel.add(label, gbc);
-        outAreaPanel.add(area, gbc1);
+        outAreaPanel.add(consoleTextArea, gbc1);
         return outAreaPanel;
     }
 
@@ -140,19 +140,5 @@ public class FileUploadView {
         gbc.weighty = weightY;
         gbc.insets = insets;
         return gbc;
-    }
-
-
-    public static void main(String[] args) {
-        // 生成窗口
-        JFrame windows1 = new JFrame("窗口1");
-        FileUploadView fileUploadView = new FileUploadView();
-        windows1.setContentPane(fileUploadView.init());
-        // 获得这个窗口的内容面板
-        windows1.setBounds(60, 100, 588, 480);
-        // 设置位置大小
-        windows1.setVisible(true);
-        // 设置按x后的操作.[这个只是关闭那个窗口]
-        windows1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 }

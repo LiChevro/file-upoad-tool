@@ -1,5 +1,7 @@
 package com.szfg.util;
 
+import com.szfg.ui.component.ConsoleTextArea;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,7 +72,7 @@ public class SettingUtil {
                     fos.close();
                 }
             } catch (IOException e) {
-                System.out.println("setting.properties文件流关闭出现异常");
+                ConsoleTextArea.startWriter("setting.properties文件流关闭出现异常");
             }
         }
     }

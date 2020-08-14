@@ -4,7 +4,6 @@ import com.szfg.ui.component.FileUploadView;
 import com.szfg.ui.layout.MenuCustom;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * Author: Chevro.Lee <br>
@@ -20,7 +19,7 @@ public class AppContainer {
         jf.setJMenuBar(menuBar);
         jf.setContentPane(new FileUploadView().init());
         jf.setVisible(true);
-        jf.setSize(600, 480);
+        jf.setSize(600, 510);
         jf.setLocationRelativeTo(null);
         jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }

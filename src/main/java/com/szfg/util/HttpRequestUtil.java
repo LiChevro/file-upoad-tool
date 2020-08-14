@@ -1,5 +1,6 @@
 package com.szfg.util;
 
+import com.szfg.ui.component.ConsoleTextArea;
 import net.sf.jmimemagic.Magic;
 import net.sf.jmimemagic.MagicMatch;
 import sun.net.www.protocol.http.HttpURLConnection;
@@ -47,7 +48,7 @@ public class HttpRequestUtil {
             Map<String, List<String>> map = connection.getHeaderFields();
             // 遍历所有的响应头字段
             for (String key : map.keySet()) {
-                System.out.println(key + "--->" + map.get(key));
+                ConsoleTextArea.startWriter(key + "--->" + map.get(key));
             }
             // 定义 BufferedReader输入流来读取URL的响应
             in = new BufferedReader(new InputStreamReader(
@@ -57,7 +58,7 @@ public class HttpRequestUtil {
                 result += line;
             }
         } catch (Exception e) {
-            System.out.println("发送GET请求出现异常！" + e);
+            ConsoleTextArea.startWriter("发送GET请求出现异常！" + e);
             e.printStackTrace();
         }
         // 使用finally块来关闭输入流
@@ -117,7 +118,7 @@ public class HttpRequestUtil {
                 result += line;
             }
         } catch (Exception e) {
-            System.out.println("发送 POST 请求出现异常！" + e);
+            ConsoleTextArea.startWriter("发送 POST 请求出现异常！" + e);
             e.printStackTrace();
         }
         //使用finally块来关闭输出流、输入流
@@ -179,12 +180,12 @@ public class HttpRequestUtil {
                     destPos += readLen;
                 }
                 String result = new String(data, StandardCharsets.UTF_8); // utf-8编码
-                System.out.println(result);
+                ConsoleTextArea.startWriter(result);
                 return result;
             }
 
         } catch (IOException e) {
-            System.out.println(e);
+            ConsoleTextArea.startWriter(e.toString());
         }
         return "error"; // 自定义错误信息
     }
@@ -285,7 +286,7 @@ public class HttpRequestUtil {
             reader.close();
             reader = null;
         } catch (Exception e) {
-            System.out.println("发送POST请求出错。" + urlStr);
+            ConsoleTextArea.startWriter("发送POST请求出错。" + urlStr);
             e.printStackTrace();
         } finally {
             if (conn != null) {

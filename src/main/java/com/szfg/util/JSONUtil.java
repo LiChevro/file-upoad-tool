@@ -4,6 +4,7 @@ package com.szfg.util;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.szfg.ui.component.ConsoleTextArea;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -34,7 +35,7 @@ public class JSONUtil {
         try {
             return obj instanceof String ? (String) obj : objectMapper.writeValueAsString(obj);
         } catch (Exception e) {
-            System.out.println("Parse object to String error");
+            ConsoleTextArea.startWriter("Parse object to String error");
             e.printStackTrace();
             return null;
         }
@@ -53,7 +54,7 @@ public class JSONUtil {
         try {
             return obj instanceof String ? (String) obj : objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
         } catch (Exception e) {
-            System.out.println("Parse object to String error");
+            ConsoleTextArea.startWriter("Parse object to String error");
             e.printStackTrace();
             return null;
         }
@@ -72,7 +73,7 @@ public class JSONUtil {
         try {
             return objectMapper.readValue(str,javaType);
         } catch (IOException e) {
-            System.out.println("Parse String to Object error");
+            ConsoleTextArea.startWriter("Parse String to Object error");
             e.printStackTrace();
             return null;
         }

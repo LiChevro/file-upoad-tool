@@ -1,6 +1,7 @@
 package com.szfg.ui.layout;
 
 import com.szfg.ui.component.ConnectSetting;
+import com.szfg.ui.component.ConsoleTextArea;
 import com.szfg.ui.component.FileUploadView;
 
 import javax.swing.*;
@@ -29,31 +30,20 @@ public class MenuCustom {
         settingMenu.add(themeItem);
         // 设置事件监听
         fileUploadItem.addActionListener(e -> {
-            System.out.println("文件上传");
+            ConsoleTextArea.startWriter("文件上传");
             frame.remove(frame.getContentPane());
             JPanel panel = new FileUploadView().init();
             frame.setContentPane(panel);
             frame.setVisible(true);
         });
         connectItem.addActionListener(e -> {
-            System.out.println("设置");
+            ConsoleTextArea.startWriter("设置");
             frame.remove(frame.getContentPane());
             JPanel panel = new ConnectSetting().init();
             frame.setContentPane(panel);
             frame.setVisible(true);
         });
-        themeItem.addActionListener(e -> System.out.println("主题"));
+        themeItem.addActionListener(e -> ConsoleTextArea.startWriter("主题"));
         return jMenuBar;
-    }
-
-    public static void main(String[] args) {
-        final JFrame jf = new JFrame("测试窗口");
-        jf.setSize(300, 300);
-        jf.setLocationRelativeTo(null);
-        jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        MenuCustom menuCustom = new MenuCustom();
-        JMenuBar menuBar = menuCustom.init(jf);
-        jf.setJMenuBar(menuBar);
-        jf.setVisible(true);
     }
 }
