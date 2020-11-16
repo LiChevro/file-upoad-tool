@@ -25,7 +25,7 @@ public class AppContainer {
         jf.setJMenuBar(menuBar);
         jf.setContentPane(new FileUploadView().init());
         jf.setVisible(true);
-        jf.setSize(600, 590);
+        jf.setSize(700, 710);
         jf.setResizable(false);
         jf.setLocationRelativeTo(null);
         jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

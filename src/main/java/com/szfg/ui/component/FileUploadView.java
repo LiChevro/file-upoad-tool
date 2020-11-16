@@ -104,9 +104,9 @@ public class FileUploadView {
         contentPanel.add(outputButton, gbc2);
         GridBagConstraints gbc3 = setGrid(GridBagConstraints.BOTH, 1, 1, 1, 1, 0.75, 0, new Insets(8, 8, 8, 8));
         contentPanel.add(outputTxt, gbc3);
-        GridBagConstraints gbc4 = setGrid(GridBagConstraints.WEST, 0, 2, 2, 1, 0.5, 0, new Insets(8, 0, 0, 8));
+        GridBagConstraints gbc4 = setGrid(GridBagConstraints.WEST, 0, 2, 1, 1, 0.5, 0, new Insets(8, 0, 0, 8));
         contentPanel.add(jCheckBox, gbc4);
-        GridBagConstraints gbc5 = setGrid(GridBagConstraints.EAST, 1, 2, 1, 1, 0.5, 0, new Insets(8, 0, 0, 8));
+        GridBagConstraints gbc5 = setGrid(GridBagConstraints.WEST, 1, 2, 1, 1, 0.5, 0, new Insets(8, 0, 0, 8));
         contentPanel.add(button, gbc5);
         return contentPanel;
     }
