@@ -28,7 +28,7 @@ public class FileUploader {
 
     private String fileUploadUrl;
     // 是否同步到外网：1.需要，0.不需要
-    private Integer inSync;
+    private int inSync;
 
     private List<File> fileList = new ArrayList<>();
 
@@ -38,9 +38,6 @@ public class FileUploader {
             return false;
         } else if (this.fileUploadPath == null) {
             ConsoleTextArea.startWriter("输入路径为空！");
-            return false;
-        } else if (this.inSync == null) {
-            ConsoleTextArea.startWriter("未选择是否同步到外网！");
             return false;
         }
         return true;
@@ -63,7 +60,7 @@ public class FileUploader {
             Map<String, String> textParams = new HashMap<>();
             fileParams.put("file", file);
             textParams.put("filename", fileName);
-            textParams.put("inSync", this.inSync.toString());
+            textParams.put("inSync", this.inSync+"");
             // 请求上传文件，一个一个上传
             String resultStr = HttpRequestUtil.formUpload(HttpRequestUtil.address + fileUploadUrl, headers, textParams, fileParams);
             ConsoleTextArea.startWriter(resultStr);
