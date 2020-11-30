@@ -61,9 +61,9 @@ public class ConsoleTextArea extends JTextArea {
     public static void startWriter (String msg) {
         LocalDateTime dateTime = LocalDateTime.now();
         PrintStream ps = System.out;
-//        new Thread(() -> {
+        new Thread(() -> {
             ps.println(dateTime.toString() + "  " + msg);
-//        }).start();
+        }).start();
     }
 
     private static void startWriterTestThread(final String name, final PrintStream ps, final int delay, final int count) {
