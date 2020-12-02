@@ -1,7 +1,6 @@
 package com.szfg.logic;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.szfg.bean.AccessTokenResult;
 import com.szfg.bean.FileUploadResult;
 import com.szfg.ui.component.ConsoleTextArea;
 import com.szfg.util.HttpRequestUtil;
@@ -20,17 +19,13 @@ import java.util.*;
  **/
 public class FileUploader {
 
+    private final List<File> fileList = new ArrayList<>();
     private String authorSecret;
-
     private String fileUploadPath;
-
     private String fileOutputPath;
-
     private String fileUploadUrl;
     // 是否同步到外网：1.需要，0.不需要
     private int inSync;
-
-    private List<File> fileList = new ArrayList<>();
 
     private boolean checkParam() {
         if (this.fileOutputPath == null) {
@@ -60,7 +55,7 @@ public class FileUploader {
             Map<String, String> textParams = new HashMap<>();
             fileParams.put("file", file);
             textParams.put("filename", fileName);
-            textParams.put("inSync", this.inSync+"");
+            textParams.put("inSync", this.inSync + "");
             // 请求上传文件，一个一个上传
             String resultStr = HttpRequestUtil.formUpload(HttpRequestUtil.address + fileUploadUrl, headers, textParams, fileParams);
             ConsoleTextArea.startWriter(resultStr);
@@ -86,7 +81,7 @@ public class FileUploader {
         String title = "文件名MD5映射";
         String excelName = "excel_" + sdf.format(date) + ".xls";
         ExportExcel exportExcel = new ExportExcel(title, rowName, dataList);
-        File exportFile = new File(this.fileOutputPath + "\\" +excelName);
+        File exportFile = new File(this.fileOutputPath + "\\" + excelName);
         try (FileOutputStream fileOutputStream = new FileOutputStream(exportFile)) {
             exportExcel.doEx(fileOutputStream);
         } catch (Exception e) {
